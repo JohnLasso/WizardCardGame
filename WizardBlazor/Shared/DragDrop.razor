@@ -1,0 +1,51 @@
+﻿@using BlazorInputFile
+@inject IJSRuntime jsRuntime
+
+    <div class="row">
+        <div class="col-12 p-0">
+            <div class="dropzone @dropClass rounded">
+                           OnChange="HandleFileInputChange"
+                           accept="image/png,image/gif,image/jpeg" />
+                Upload images
+            </div>
+           
+        </div>
+    </div>
+@code {
+
+
+private string dropClass = "";
+
+private List<IFileListEntry> selectedFiles = new List<IFileListEntry>();
+
+private void HandleDragEnter()
+{
+    dropClass = "dropzone-drag";
+}
+ 
+private void HandleDragLeave()
+{
+    dropClass = "";
+}
+
+
+private async Task HandleFileInputChange(IFileListEntry[] files)
+{
+    dropClass = "";
+  
+    List<string> acceptedFileTypes = new List<string>() { "image/png", "image/jpeg", "image/gif" };
+    if (files != null)
+    {
+        foreach (var file in files)
+        {
+                selectedFiles.Add(file);
+        }
+    }
+}
+
+private void RemoveFile(IFileListEntry file)
+{
+    selectedFiles.Remove(file);
+}
+
+}
